@@ -1,0 +1,5 @@
+INDEX VERSION 1.134+C:\temp\Bubble_Sort\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+3494180687.index
+1855244170.index
+1116033942.index

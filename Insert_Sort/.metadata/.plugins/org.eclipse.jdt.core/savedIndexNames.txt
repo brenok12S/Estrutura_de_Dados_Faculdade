@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\temp\Estrutura_de_Dados\Insert_Sort\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+1855244170.index
+4043294539.index

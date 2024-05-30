@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\temp\Estrutura_de_Dados\Quick_Sort\.metadata\.plugins\org.eclipse.jdt.core
+2283363720.index
+1855244170.index
+1865797976.index

@@ -1,0 +1,28 @@
+package application;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Random;
+
+public class Program {
+
+    public static void main(String[] args) {
+        
+        int[] sizes = {10, 100, 1000, 10000, 100000};
+        
+        try (FileWriter fileWriter = new FileWriter("C:\\temp\\output.txt");
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            
+            for (int size : sizes) {
+                int[] vet = generateRandomArray(size);
+
+                // Exibir e medir o tempo para o vetor aleatório (sem ordenar)
+                long randomDuration = measureRandomArray(vet);
+                printWriter.println("Tempo de execução para vetor de tamanho " + size + " (aleatório): " + randomDuration + " nanosegundos");
+                System.out.println("Tempo de execução para vetor de tamanho " + size + " (aleatório): " + randomDuration + " nanosegundos");
+                
+                // Exibir e medir tempo de execução para ordenação crescente
+                long ascendingDuration = sortAndMeasureTime(vet, true);
+                printWriter.println("Tempo de execução para vetor de tamanho " + size + " (crescente): " + ascendingDuration + " nanosegundos");
+                System.out.println("Tempo de execução para vetor de tamanho " + size + " (crescen

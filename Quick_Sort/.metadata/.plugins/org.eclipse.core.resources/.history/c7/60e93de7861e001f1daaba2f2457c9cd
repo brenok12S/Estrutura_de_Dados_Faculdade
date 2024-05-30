@@ -1,0 +1,124 @@
+package application;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Random;
+
+public class Program {
+
+    public static void main(String[] args) {
+        
+        int[] sizes = {10, 100, 1000, 10000, 100000};
+        
+        try (FileWriter fileWriter = new FileWriter("C:\\temp\\output.txt");
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+        	
+        	printWriter.println("-------------------------- Merge Sort -------------------------------------------------");
+            
+            for (int size : sizes) {
+                int[] vet = generateRandomArray(size);
+
+                // Exibir e medir o tempo para o vetor aleatório (sem ordenar)
+                long randomDuration = measureRandomArray(vet);
+                printWriter.println("Tempo de execução para vetor de tamanho " + size + " (aleatório): " + randomDuration + " nanosegundos");
+                System.out.println("Tempo de execução para vetor de tamanho " + size + " (aleatório): " + randomDuration + " nanosegundos");
+                
+                // Exibir e medir tempo de execução para ordenação crescente
+                long ascendingDuration = sortAndMeasureTime(vet, true);
+                printWriter.println("Tempo de execução para vetor de tamanho " + size + " (crescente): " + ascendingDuration + " nanosegundos");
+                System.out.println("Tempo de execução para vetor de tamanho " + size + " (crescente): " + ascendingDuration + " nanosegundos");
+                
+                // Exibir e medir tempo de execução para ordenação decrescente
+                long descendingDuration = sortAndMeasureTime(vet, false);
+                printWriter.println("Tempo de execução para vetor de tamanho " + size + " (decrescente): " + descendingDuration + " nanosegundos");
+                System.out.println("Tempo de execução para vetor de tamanho " + size + " (decrescente): " + descendingDuration + " nanosegundos");
+                
+                printWriter.println("----------------------------------------------------------------------------------------");
+                
+            }
+            
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+    }
+
+    private static int[] generateRandomArray(int size) {
+        Random random = new Random();
+        int[] array = new int[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = random.nextInt(10000);
+        }
+        return array;
+    }
+
+    private static long measureRandomArray(int[] vet) {
+        long startTime = System.nanoTime();
+        // Simula o processamento do vetor aleatório
+        long endTime = System.nanoTime();
+        return endTime - startTime;
+    }
+
+    private static long sortAndMeasureTime(int[] vet, boolean ascending) {
+        int[] arrayToSort = vet.clone();
+        long startTime = System.nanoTime();
+
+        mergeSort(arrayToSort, ascending);
+        
+        long endTime = System.nanoTime();
+        return endTime - startTime;
+    }
+
+    private static void mergeSort(int[] array, boolean ascending) {
+        if (array.length > 1) {
+            int mid = array.length / 2;
+
+            int[] left = new int[mid];
+            for (int i = 0; i < mid; i++) {
+                left[i] = array[i];
+            }
+
+            int[] right = new int[array.length - mid];
+            for (int i = mid; i < array.length; i++) {
+                right[i - mid] = array[i];
+            }
+
+            mergeSort(left, ascending);
+            mergeSort(right, ascending);
+
+            merge(array, left, right, ascending);
+        }
+    }
+
+    private static void merge(int[] array, int[] left, int[] right, boolean ascending) {
+        int i = 0, j = 0, k = 0;
+        while (i < left.length && j < right.length) {
+            if ((ascending && left[i] <= right[j]) || (!ascending && left[i] >= right[j])) {
+                array[k++] = left[i++];
+            } else {
+                array[k++] = right[j++];
+            }
+        }
+
+        while (i < left.length) {
+            array[k++] = left[i++];
+        }
+
+        while (j < right.length) {
+            array[k++] = right[j++];
+        }
+    }
+
+    private static String arrayToString(int[] array) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < array.length; i++) {
+            sb.append(array[i]);
+            if (i < array.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+}
